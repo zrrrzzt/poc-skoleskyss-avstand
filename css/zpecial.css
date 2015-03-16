@@ -45,3 +45,7 @@ nav ul li:hover ul li a:hover {
     background:#6dc7ec;
     color:#fff;
 }
+
+iframe {
+    border: none;
+}
