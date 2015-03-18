@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<style>
+    iframe {
+        width: 100%;
+        height: 750px;
+    }
+</style>
+<iframe id="render" frameborder="0"></iframe>
+<script>
+    var url = location.search.replace('?url=', '');
+    var iframe = document.getElementById('render');
+    iframe.src = url;
+</script>
+</body>
+</html>
