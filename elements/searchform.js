@@ -6,35 +6,82 @@ var schoolsList = require('../data/schools.json');
 var SearchForm = React.createClass({
   handleChange: function(e) {
     this.props.onUserChange(
+      this.refs.personnrInput.getDOMNode().value,
+      this.refs.firstnameInput.getDOMNode().value,
+      this.refs.lastnameInput.getDOMNode().value,
+      this.refs.emailInput.getDOMNode().value,
+      this.refs.phoneInput.getDOMNode().value,
       this.refs.addressInput.getDOMNode().value,
       this.refs.schoolInput.getDOMNode().value
     );
   },
-  handleSearch: function(e) {
+  handleChangeSchool: function(e) {
     e.preventDefault();
-    this.props.onUserSubmit(
+    this.props.onUserChangeSchool(
       this.refs.addressInput.getDOMNode().value,
       this.refs.schoolInput.getDOMNode().value
     );
   },
   render: function() {
+    var displayClass = this.props.submitState === 'success' ? 'hidden':'';
+
     return (
-      <form onSubmit={this.handleSearch}>
-        <select ref="schoolInput" className="u-full-width">
+      <form className={displayClass}>
+        <input
+          type="text"
+          placeholder="Fødselsnummer (11 siffer)"
+          value={this.props.personnr}
+          ref="personnrInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <input
+          type="text"
+          placeholder="Fornavn"
+          value={this.props.firstname}
+          ref="firstnameInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <input
+          type="text"
+          placeholder="Etternavn"
+          value={this.props.lastname}
+          ref="lastnameInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <input
+          type="text"
+          placeholder="E-postadresse"
+          value={this.props.email}
+          ref="emailInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <input
+          type="text"
+          placeholder="Telefon/Mobilnummer"
+          value={this.props.phone}
+          ref="phoneInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <input
+          type="text"
+          placeholder="Din bostedsadresse"
+          value={this.props.address}
+          ref="addressInput"
+          onChange={this.handleChange}
+          className="u-full-width"
+        />
+        <select ref="schoolInput" className="u-full-width" onChange={this.handleChangeSchool}>
         {schoolsList.map(function(school){
             return (
               <option value={school.address}>{school.name}</option>
             )
           })}
           </select>
-        <input
-          type="text"
-          placeholder="Din adresse, avslutt med [Enter]"
-          value={this.props.address}
-          ref="addressInput"
-          onChange={this.handleChange}
-          className="u-full-width"
-        />
       </form>
     );
   }

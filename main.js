@@ -5,48 +5,112 @@ var React = require('react');
 var getDistance = require('./utils/getdistance');
 var SearchForm = require('./elements/searchform');
 var AvstandsResultat = require('./elements/avstandsresultat');
+var SubmitSuccess = require('./elements/submitsuccess');
 
 var App = React.createClass({
   getInitialState: function() {
-  return {
-    address: '',
-    school: '',
-    result: {}
-  };
-},
+    return {
+      personnr: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      address: '',
+      school: '',
+      calculatedDistance: '',
+      manualDistance: '',
+      manualDescription: '',
+      submitState: 'unknown',
+      result: {}
+    };
+  },
 
-  handleUserChange: function(address, school){
+  handleUserChange: function(personnr, firstname, lastname, email, phone, address, school){
     this.setState({
+      personnr: personnr,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      phone: phone,
       address: address,
       school: school
     });
   },
 
-handleUserSearch: function(address, school) {
-  var that = this;
-  getDistance({origin:address, destination:school}, function(err, data) {
-    console.log('Data: ' + data);
-    that.setState({
-      address: address,
-      school: school,
-      result: data
+  handleDistanceChange: function(manualDistance, manualDescription){
+    this.setState({
+      manualDistance: manualDistance,
+      manualDescription: manualDescription
     });
-  });
-},
+  },
+
+  handleUserSubmit: function(){
+    var payload = {
+      personnummer: this.state.personnr,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      email: this.state.email,
+      phone: this.state.phone,
+      address: this.state.address,
+      school: this.state.school,
+      calculatedDistance: this.state.calculatedDistance,
+      manualDistance: this.state.manualDistance,
+      manualDescription: this.state.manualDescription
+    }
+    console.log(payload);
+    this.setState({
+      personnr: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      phone: '',
+      address: '',
+      school: '',
+      calculatedDistance: '',
+      manualDistance: '',
+      manualDescription: '',
+      submitState: 'success'
+    });
+
+  },
+
+  handleUserSearch: function(address, school) {
+    var that = this;
+    getDistance({origin:address, destination:school}, function(err, data) {
+      that.setState({
+        address: address,
+        school: school,
+        result: data,
+        calculatedDistance: data.distance
+      });
+    });
+  },
 
 render: function() {
   return (
     <div className="container">
-  <h1>Skoleskyss - beregn avstand</h1>
+  <h1>Søknad om skoleskyss</h1>
       <SearchForm
+  personnr={this.state.personnr}
+  firstname={this.state.firstname}
+  lastname={this.state.lastname}
   address={this.state.address}
     school={this.state.school}
     onUserChange={this.handleUserChange}
-onUserSubmit={this.handleUserSearch}
+onUserChangeSchool={this.handleUserSearch}
+        submitState={this.state.submitState}
 />
 <AvstandsResultat
   result={this.state.result}
+  manualDistance={this.state.manualDistance}
+  manualDescription={this.state.manualDescription}
+  onUserSubmit={this.handleUserSubmit}
+  onDistanceChange={this.handleDistanceChange}
+  submitState={this.state.submitState}
 />
+      <SubmitSuccess
+        submitState={this.state.submitState}
+      />
 </div>
 );
 }

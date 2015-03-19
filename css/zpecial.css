@@ -49,3 +49,7 @@ nav ul li:hover ul li a:hover {
 iframe {
     border: none;
 }
+
+.hidden {
+    display: none;
+}
