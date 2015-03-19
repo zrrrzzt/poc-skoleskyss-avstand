@@ -3,6 +3,7 @@
 var http = require('http');
 var React = require('react');
 var getDistance = require('./utils/getdistance');
+var submitForm = require('./utils/submitform');
 var SearchForm = require('./elements/searchform');
 var AvstandsResultat = require('./elements/avstandsresultat');
 var SubmitSuccess = require('./elements/submitsuccess');
@@ -45,6 +46,8 @@ var App = React.createClass({
   },
 
   handleUserSubmit: function(){
+    var self = this;
+
     var payload = {
       personnummer: this.state.personnr,
       firstname: this.state.firstname,
@@ -56,8 +59,19 @@ var App = React.createClass({
       calculatedDistance: this.state.calculatedDistance,
       manualDistance: this.state.manualDistance,
       manualDescription: this.state.manualDescription
-    }
-    console.log(payload);
+    };
+
+    submitForm(payload, function(err, data){
+      if (err) {
+        console.error(err);
+      } else {
+        self.setState({
+          submitState: 'success'
+        });
+        console.log(data);
+      }
+    });
+
     this.setState({
       personnr: '',
       firstname: '',
@@ -68,8 +82,7 @@ var App = React.createClass({
       school: '',
       calculatedDistance: '',
       manualDistance: '',
-      manualDescription: '',
-      submitState: 'success'
+      manualDescription: ''
     });
 
   },
