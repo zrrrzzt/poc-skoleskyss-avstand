@@ -58,7 +58,10 @@ var App = React.createClass({
       school: this.state.school,
       calculatedDistance: this.state.calculatedDistance,
       manualDistance: this.state.manualDistance,
-      manualDescription: this.state.manualDescription
+      manualDescription: this.state.manualDescription,
+      schema_id: 'skjema-tfk-skoleskyss-1.1.0',
+      schema_name: 'skoleskyss',
+      timestamp: new Date().getTime()
     };
 
     submitForm(payload, function(err, data){
