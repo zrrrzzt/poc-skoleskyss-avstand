@@ -5,6 +5,24 @@ var startUrl= 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyAu4oe2b
 
 var AvstandsResultat = React.createClass({
 
+  getInitialState: function() {
+    return {
+      disagree: false,
+      disagreeButtonText: 'ikke '
+    };
+  },
+
+  handleDisagreement: function(){
+    var newDisagreeState = this.state.disagree ? false:true;
+    var newDisagreeButtonText = this.state.disagree ? 'ikke ':'';
+    this.setState(
+      {
+        disagree: newDisagreeState,
+        disagreeButtonText: newDisagreeButtonText
+      }
+    );
+  },
+
   handleChange: function(e) {
     this.props.onDistanceChange(
       this.refs.distanceInput.getDOMNode().value,
@@ -22,17 +40,19 @@ var AvstandsResultat = React.createClass({
     var mapUrl = this.props.result.origin ? embedUrl:emptyUrl;
     var targetUrl = 'render.html?url=' + mapUrl;
     var displayClass = this.props.result.origin && this.props.submitState === 'unknown' ? '':'hidden';
+    var agreeDisplay = this.state.disagree ? '':'hidden';
 
     return (
       <div className={displayClass}>
-        <p>
-          <strong>Automatisk beregnet avstand:</strong> {this.props.result.distance}<br />
-          <strong>Startsted for beregningen:</strong> {this.props.result.origin}<br />
-          <strong>Stoppested for beregningen:</strong> {this.props.result.destination}<br />
-          <a href={targetUrl} target="_blank">Vis beregnet rute på kart</a>
-        </p>
-        <p>
-         Er du uenig i den automatiske avstandsberegningen kan du skrive inn avstanden du mener er korrekt her.
+
+        <strong>Automatisk beregnet avstand:</strong> {this.props.result.distance}<br />
+        <strong>Startsted for beregningen:</strong> {this.props.result.origin}<br />
+        <strong>Stoppested for beregningen:</strong> {this.props.result.destination}<br />
+        <a href={targetUrl} target="_blank">Vis beregnet rute på kart</a>
+        <button
+          onClick={this.handleDisagreement}
+          className="u-full-width">Jeg er {this.state.disagreeButtonText}enig i beregningen</button>
+        <div className={agreeDisplay}>
         <input
           type="text"
           placeholder="Din mening om avstand til skolen (i kilometer)"
@@ -49,7 +69,7 @@ var AvstandsResultat = React.createClass({
             onChange={this.handleChange}
             className="u-full-width"
           />
-        </p>
+          </div>
         <button className="primary" onClick={this.handleSubmit}>Send søknad</button>
       </div>
     );
