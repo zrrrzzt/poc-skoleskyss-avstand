@@ -12,8 +12,7 @@ var App = React.createClass({
   getInitialState: function() {
     return {
       personnr: '',
-      firstname: '',
-      lastname: '',
+      name: '',
       email: '',
       phone: '',
       address: '',
@@ -26,11 +25,10 @@ var App = React.createClass({
     };
   },
 
-  handleUserChange: function(personnr, firstname, lastname, email, phone, address, school){
+  handleUserChange: function(personnr, name, email, phone, address, school){
     this.setState({
       personnr: personnr,
-      firstname: firstname,
-      lastname: lastname,
+      name: name,
       email: email,
       phone: phone,
       address: address,
@@ -50,8 +48,7 @@ var App = React.createClass({
 
     var payload = {
       personnummer: this.state.personnr,
-      firstname: this.state.firstname,
-      lastname: this.state.lastname,
+      name: this.state.name,
       email: this.state.email,
       phone: this.state.phone,
       address: this.state.address,
@@ -77,8 +74,7 @@ var App = React.createClass({
 
     this.setState({
       personnr: '',
-      firstname: '',
-      lastname: '',
+      name: '',
       email: '',
       phone: '',
       address: '',
@@ -108,8 +104,7 @@ render: function() {
   <h1>Søknad om skoleskyss</h1>
       <SearchForm
   personnr={this.state.personnr}
-  firstname={this.state.firstname}
-  lastname={this.state.lastname}
+  name={this.state.name}
   address={this.state.address}
     school={this.state.school}
     onUserChange={this.handleUserChange}

@@ -7,8 +7,7 @@ var SearchForm = React.createClass({
   handleChange: function(e) {
     this.props.onUserChange(
       this.refs.personnrInput.getDOMNode().value,
-      this.refs.firstnameInput.getDOMNode().value,
-      this.refs.lastnameInput.getDOMNode().value,
+      this.refs.nameInput.getDOMNode().value,
       this.refs.emailInput.getDOMNode().value,
       this.refs.phoneInput.getDOMNode().value,
       this.refs.addressInput.getDOMNode().value,
@@ -37,17 +36,9 @@ var SearchForm = React.createClass({
         />
         <input
           type="text"
-          placeholder="Fornavn"
-          value={this.props.firstname}
-          ref="firstnameInput"
-          onChange={this.handleChange}
-          className="u-full-width"
-        />
-        <input
-          type="text"
-          placeholder="Etternavn"
-          value={this.props.lastname}
-          ref="lastnameInput"
+          placeholder="Navn"
+          value={this.props.name}
+          ref="nameInput"
           onChange={this.handleChange}
           className="u-full-width"
         />
